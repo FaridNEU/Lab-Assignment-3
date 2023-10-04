@@ -183,7 +183,7 @@ public class MainFrame extends javax.swing.JFrame {
         String age = ageTextField.getText();
         String email = emailTextField.getText();
         String message = messageTextArea.getText();
-        if(isValidEmail(email)){
+        if(isValidMessage(message)){
             String m = firstName + ' ' + lastName + ' ' + age + ' ' + email + ' ' + message;
             JOptionPane.showMessageDialog(this, m, "information", HEIGHT);
         }
@@ -192,7 +192,6 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
     
     public static void main(String args[]) 
     {
@@ -255,6 +254,20 @@ public class MainFrame extends javax.swing.JFrame {
         if (domainPart.isEmpty()) {
             return false; 
         }
+        return true;
+    }
+    public boolean isValidAge(String ageStr) {
+        try {
+            int age = Integer.parseInt(ageStr);
+            return age >= 0;
+        } catch (NumberFormatException e) {
+            return false; 
+        }
+    }
+    public boolean isValidMessage(String message){
+        if (message.isEmpty()) {
+            return false; 
+        } 
         return true;
     }
 
