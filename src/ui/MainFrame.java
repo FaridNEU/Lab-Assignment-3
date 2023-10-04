@@ -4,6 +4,8 @@
  */
 package ui;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Farid
@@ -75,6 +77,11 @@ public class MainFrame extends javax.swing.JFrame {
         jButton1.setText("UPLOAD");
 
         submitButton.setText("SUBMIT");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -169,10 +176,26 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_firstNameTextFieldActionPerformed
 
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        // TODO add your handling code here:
+        String firstName = firstNameTextField.getText();
+        String lastName = lastNameTextField.getText();
+        String age = ageTextField.getText();
+        String email = emailTextField.getText();
+        String message = messageTextArea.getText();
+        if(isValidEmail(email)){
+            String m = firstName + ' ' + lastName + ' ' + age + ' ' + email + ' ' + message;
+            JOptionPane.showMessageDialog(this, m, "information", HEIGHT);
+        }
+    }//GEN-LAST:event_submitButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    
+    
+    public static void main(String args[]) 
+    {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -202,6 +225,37 @@ public class MainFrame extends javax.swing.JFrame {
                 new MainFrame().setVisible(true);
             }
         });
+    }
+    public boolean isValidName(String name) {
+        if (name == null || name.isEmpty()) {
+            return false;
+        }
+
+        for (char c : name.toCharArray()) {
+            if (!Character.isLetter(c)) {
+                return false;
+            }
+        }
+        return name.length() >= 2 && name.length() <= 50;
+    }
+
+    public boolean isValidEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            return false; 
+        }
+        String[] parts = email.split("@");
+        if (parts.length != 2) {
+            return false;
+        }
+        String localPart = parts[0];
+        String domainPart = parts[1];
+        if (localPart.isEmpty()) {
+            return false; 
+        }
+        if (domainPart.isEmpty()) {
+            return false; 
+        }
+        return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
