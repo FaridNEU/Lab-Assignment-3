@@ -4,13 +4,18 @@
  */
 package ui;
 
+import java.awt.Image;
 import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.io.File;
+
 
 /**
  *
  * @author Farid
  */
 public class MainFrame extends javax.swing.JFrame {
+    File selectedFile;
 
     /**
      * Creates new form MainFrame
@@ -75,6 +80,11 @@ public class MainFrame extends javax.swing.JFrame {
         photoLabel.setText("Photo:");
 
         jButton1.setText("UPLOAD");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         submitButton.setText("SUBMIT");
         submitButton.addActionListener(new java.awt.event.ActionListener() {
@@ -183,11 +193,57 @@ public class MainFrame extends javax.swing.JFrame {
         String age = ageTextField.getText();
         String email = emailTextField.getText();
         String message = messageTextArea.getText();
+        String output = "";
+        boolean flag = false;
+        if(!isValidName(firstName)){
+            output = output + "FirstName" ;
+            flag = true;
+        }
+        if(!isValidName(lastName)){
+            output = output + "," + "LastName" ;
+            flag = true;
+        }
+        if(!isValidAge(age)){
+            output = output + "," + "Age" ;
+            flag = true;
+        }
+        if(!isValidEmail(email)){
+            output = output + "," + "Email" ;
+            flag = true;
+        }
         if(isValidMessage(message)){
-            String m = firstName + ' ' + lastName + ' ' + age + ' ' + email + ' ' + message;
-            JOptionPane.showMessageDialog(this, m, "information", HEIGHT);
+            output = output + "," + "Message" ;
+            flag = true;
+        }
+        if(selectedFile == null){
+            output = output + "," + "Image" ;
+            flag = true;   
+        }
+        // Validation :
+        if(flag == true){
+            String outputMessage = output + " Invalid/empty ... \nPlease check and submit again";
+            JOptionPane.showMessageDialog(this, outputMessage, "Confirm of Registeration", HEIGHT);
+        }
+        else{
+            ImageIcon imageIcon = new ImageIcon(selectedFile.getAbsolutePath());
+            Image scaledImage = imageIcon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+            ImageIcon scaledImageIcon = new ImageIcon(scaledImage);
+            String outputMessage = "Name: "+firstName + " " + lastName + "\nAge: " + age + "\nEmail: " + email + "\nYour Register Form Submitted!";
+            JOptionPane.showMessageDialog(this, outputMessage, "Confirm of Registeration", HEIGHT, scaledImageIcon);
         }
     }//GEN-LAST:event_submitButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        int returnValue = fileChooser.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            selectedFile = fileChooser.getSelectedFile();
+                    // Handle the selected file here, e.g., display it in an image component
+                    // You can also save the file path to use it later.
+            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -266,9 +322,9 @@ public class MainFrame extends javax.swing.JFrame {
     }
     public boolean isValidMessage(String message){
         if (message.isEmpty()) {
-            return false; 
+            return true; 
         } 
-        return true;
+        return false;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
